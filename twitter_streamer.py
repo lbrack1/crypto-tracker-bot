@@ -76,7 +76,6 @@ class MyListener(tweepy.StreamListener):
             screen_name = tweet['user']['screen_name']
             tweet_id = tweet['id']
             created_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
-            print created_at 
         
             #Filter tweet, uncomment line below for filtering
             #self.filter_tweet(tweet)
