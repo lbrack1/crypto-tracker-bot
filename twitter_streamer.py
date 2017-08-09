@@ -15,8 +15,6 @@ import plotly.plotly as py
 import plotly.tools as tls
 import plotly.graph_objs as go
 import MySQLdb
-from dateutil.parser import parse
-import string, os, sys, subprocess, time
 
 
 # Import twitter API keys and words to track from "authentication.py"
