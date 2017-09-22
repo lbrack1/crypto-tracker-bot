@@ -16,13 +16,13 @@ import string
 from nltk.tokenize import word_tokenize, RegexpTokenizer
 from nltk.corpus import stopwords
 
-# --------------------------------------------------------------------------
+# -------------------------------------------------------y-------------------
 # Function to retrieve data from database
 
 def get_data(x):
     
     # Open a database connection
-    connection = MySQLdb.connect (host = "localhost", user = "leobrack", passwd = "password", db = "twitter")
+    connection = MySQLdb.connect (host = "localhost", user = "leobrack", passwd = "password", db = "crypto_db")
 
     # Prepare a cursor object using cursor() method
     cursor = connection.cursor ()
@@ -37,7 +37,7 @@ def get_data(x):
     #cursor.execute ("select text from twitter where created_at between '" + nowtimestr + "' and '" + prevtimestr + "';")
 
     # FOR DEVELOPMENT! Execute the SQL query using execute() method.
-    cursor.execute ("select text from twitter where created_at between '2017-08-09 09:59:30' and '2017-08-09 10:00:52';")
+    cursor.execute ("select text from raw_tweets where created_at between '2016-08-09 09:59:30' and '2018-09-01 13:50:32';")
 
     # Fetch all of the rows from the query
     text = cursor.fetchall ()
