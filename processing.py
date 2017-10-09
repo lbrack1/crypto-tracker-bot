@@ -122,12 +122,12 @@ def word_freq(tweet_df):
 #---------------------------------------------------------------------------
 
 # TESTING ONLY -Read tweets created between these dates
-start = datetime.date(2017,9,21)
-end = datetime.date(2017,9,22)
+#start = datetime.date(2017,9,21)
+#end = datetime.date(2017,9,22)
 
 # RUN TIME - Get datetime string corresponding to last 5 seconds
-#start = datetime.datetime.now() 
-#end = datetime.datetime.now() - datetime.timedelta(seconds=5)
+start = datetime.datetime.now() - datetime.timedelta(seconds=5) 
+end = datetime.datetime.now()
 
 # Get data in pandas dataframe format
 data = read_data_pandas(start,end)

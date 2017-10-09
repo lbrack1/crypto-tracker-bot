@@ -73,7 +73,7 @@ class MyListener(tweepy.StreamListener):
             #Define counter as global variable
             global num_tweets
             num_tweets += 1 #Add 1 to count as we have a new tweet!
-            #print num_tweets  #Check response 
+            print num_tweets  #Check response 
             
             store_data(created_at, text, screen_name, tweet_id)
                             
