@@ -4,6 +4,7 @@
 # This code loads data from the raw_tweets database and analyses it ready 
 # for website display
 # Data saved to new database processed_tweets
+# Script scheduled to be executed every 5 seconds by using python anyhwere scheduler
 # --------------------------------------------------------------------------
 
 from __future__ import division
@@ -26,12 +27,12 @@ update_time = 5 #seconds
 
 # This function takes the 'created_at', 'text', 'screen_name' and 'tweet_id' and stores it
 # in a MySQL database
-def store_data(tps, word_freq, now_time):
+def store_data(time, most_common, tps):
     db=MySQLdb.connect(host='localhost', user='leobrack', passwd='password', db='crypto_db', charset="utf8mb4")
     cursor = db.cursor()
-    insert_query = "INSERT INTO processed_tweets (tps, word_freq, now_time) VALUES (%s, %s, %s)"
+    insert_query = "INSERT INTO processed_tweets (time, most_common, tps) VALUES (%s, %s, %s)"
     #try:
-    cursor.execute(insert_query, (tps, word_freq, now_time))
+    cursor.execute(insert_query, (time, most_common, tps))
     db.commit()
     cursor.close()
     db.close()
@@ -59,6 +60,7 @@ def tweets_per_sec(tweet_df, update_time):
     tps = update_time/num_tweets
     return tps
     
+# Function to strip links from tweet
 def strip_links(text):
     link_regex    = re.compile('((https?):((//)|(\\\\))+([\w\d:#@%/;$()~_?\+-=\\\.&](#!)?)*)', re.DOTALL)
     links         = re.findall(link_regex, text)
@@ -66,6 +68,7 @@ def strip_links(text):
         text = text.replace(link[0], ', ')    
     return text
 
+# Function to strip entities from tweet
 def strip_all_entities(text):
     entity_prefixes = ['@','#']
     for separator in  string.punctuation:
@@ -107,25 +110,26 @@ def word_freq(tweet_df):
         for w in filtered_sentence:
             all_words.append(w.lower())
         
-    # Process list of words
+    # Process list of words, calculate frequency distribution
     all_words = nltk.FreqDist(all_words)
     most_common = all_words.most_common(15)
-    return most_common
+    most_common_json = json.dumps(most_common)
+    return most_common_json
     
- 
 
 #---------------------------------------------------------------------------
-# MAIN
+# MAIN CODE
 #---------------------------------------------------------------------------
 
-# Code runs continuously, processes new data from database every x seconds
-
-# Read tweets created between these dates
+# TESTING ONLY -Read tweets created between these dates
 start = datetime.date(2017,9,21)
 end = datetime.date(2017,9,22)
 
+# RUN TIME - Get datetime string corresponding to last 5 seconds
+#start = datetime.datetime.now() 
+#end = datetime.datetime.now() - datetime.timedelta(seconds=5)
+
 # Get data in pandas dataframe format
-#data = read_data(start,end)
 data = read_data_pandas(start,end)
 
 # Processing 
@@ -134,3 +138,4 @@ most_common = word_freq(data)
 print tps
 print most_common
 
+store_data(start,most_common, tps)
