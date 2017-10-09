@@ -29,7 +29,8 @@ y = []
 # This function takes the 'created_at', 'text', 'screen_name' and 'tweet_id' and stores it
 # into a MySQL database
 def store_data(created_at, text, screen_name, tweet_id):
-    db=MySQLdb.connect(host='localhost', user='leobrack', passwd='password', db='crypto_db', charset="utf8mb4")
+    #db=MySQLdb.connect(host='localhost', user='leobrack', passwd='password', db='crypto_db', charset="utf8mb4")
+    db=MySQLdb.connect(host='brackl1.mysql.pythonanywhere-services.com', user='brackl1', passwd='database', db='brackl1$crypto_db', charset="utf8mb4")
     cursor = db.cursor()
     insert_query = "INSERT INTO raw_tweets (tweet_id, screen_name, created_at, text) VALUES (%s, %s, %s, %s)"
     #try:

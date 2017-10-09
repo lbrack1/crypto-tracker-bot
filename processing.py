@@ -29,7 +29,8 @@ update_time = 5 #seconds
 # This function takes the 'created_at', 'text', 'screen_name' and 'tweet_id' and stores it
 # in a MySQL database
 def store_data(time, most_common, tps):
-    db=MySQLdb.connect(host='localhost', user='leobrack', passwd='password', db='crypto_db', charset="utf8mb4")
+    #db=MySQLdb.connect(host='localhost', user='leobrack', passwd='password', db='crypto_db', charset="utf8mb4")
+    db=MySQLdb.connect(host='brackl1.mysql.pythonanywhere-services.com', user='brackl1', passwd='database', db='brackl1$crypto_db', charset="utf8mb4")
     cursor = db.cursor()
     insert_query = "INSERT INTO processed_tweets (time, most_common, tps) VALUES (%s, %s, %s)"
     #try:
@@ -45,7 +46,8 @@ def store_data(time, most_common, tps):
 # start and end variables   
 
 def read_data_pandas(start,end):
-    db=MySQLdb.connect(host='localhost', user='leobrack', passwd='password', db='crypto_db', charset="utf8mb4")
+    #db=MySQLdb.connect(host='localhost', user='leobrack', passwd='password', db='crypto_db', charset="utf8mb4")
+    db=MySQLdb.connect(host='brackl1.mysql.pythonanywhere-services.com', user='brackl1', passwd='database', db='brackl1$crypto_db', charset="utf8mb4")
     read_query = " SELECT created_at, text FROM raw_tweets WHERE created_at BETWEEN %s AND %s "
     df = pd.read_sql(read_query, params = (start,end), con=db)
     return df
