@@ -15,7 +15,8 @@ import pandas as pd
 import nltk
 import re
 import string
-from nltk.tokenize import word_tokenize, RegexpTokenizer
+import time
+from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
 #Define how often the script updates with new data
@@ -120,22 +121,31 @@ def word_freq(tweet_df):
 #---------------------------------------------------------------------------
 # MAIN CODE
 #---------------------------------------------------------------------------
+# This script runs forever, updating every 5 seconds
 
-# TESTING ONLY -Read tweets created between these dates
-#start = datetime.date(2017,9,21)
-#end = datetime.date(2017,9,22)
+while True:
+    
+        print '----------------'
+        # TESTING ONLY -Read tweets created between these dates
+        #start = datetime.date(2017,9,21)
+        #end = datetime.date(2017,9,22)
 
-# RUN TIME - Get datetime string corresponding to last 5 seconds
-start = datetime.datetime.now() - datetime.timedelta(seconds=5) 
-end = datetime.datetime.now()
+        # RUN TIME - Get datetime string corresponding to last 5 seconds
+        start = datetime.datetime.now() - datetime.timedelta(seconds=5) 
+        end = datetime.datetime.now()
+        print start
+        # Get data in pandas dataframe format
+        data = read_data_pandas(start,end)
 
-# Get data in pandas dataframe format
-data = read_data_pandas(start,end)
+        # Processing 
+        tps = tweets_per_sec(data, update_time)
+        most_common = word_freq(data)
+        print tps
+        print most_common
 
-# Processing 
-tps = tweets_per_sec(data, update_time)
-most_common = word_freq(data)
-print tps
-print most_common
+        store_data(start,most_common, tps)
+        print '----------------'
+        
+        time.sleep(5)
 
-store_data(start,most_common, tps)
+        
